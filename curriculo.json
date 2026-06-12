@@ -1,0 +1,23 @@
+{
+  "nome": "Estudante de Desenvolvimento de Sistemas",
+  "resumo": "Estudante de Desenvolvimento de Sistemas com interesse em desenvolvimento web, banco de dados e suporte tecnico.",
+  "habilidades": [
+    "Python",
+    "JavaScript",
+    "HTML",
+    "CSS",
+    "SQL",
+    "MySQL",
+    "Git",
+    "GitHub",
+    "Logica de Programacao",
+    "POO",
+    "Suporte Tecnico",
+    "Redes",
+    "Linux",
+    "Excel",
+    "Pacote Office"
+  ],
+  "nivel": "estagiario",
+  "area_interesse": "TI"
+}

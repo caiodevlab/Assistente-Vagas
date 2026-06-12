@@ -397,20 +397,48 @@ def deduplicar(vagas: list[Vaga]) -> list[Vaga]:
 
 
 def salvar_csv(vagas: list[Vaga], caminho: str = "vagas.csv") -> None:
-    """Salva lista de vagas em CSV."""
+    """Salva lista de vagas em CSV com score de compatibilidade."""
     if not vagas:
         print("\nNenhuma vaga encontrada para salvar.")
         return
 
-    campos = ["titulo", "empresa", "localizacao", "link", "termo_busca", "fonte"]
+    # Tenta calcular ranking se curriculo existir
+    try:
+        from curriculo import Curriculo
+        from ranking import calcular_compatibilidade
+        curriculo = Curriculo.carregar("curriculo.json")
+        _ranking_ativo = True
+    except ImportError:
+        _ranking_ativo = False
+
+    campos = ["titulo", "empresa", "localizacao", "link", "termo_busca", "fonte",
+              "score", "compatibilidade", "matches"]
 
     with open(caminho, "w", newline="", encoding="utf-8-sig") as f:
         writer = csv.DictWriter(f, fieldnames=campos)
         writer.writeheader()
         for v in vagas:
-            writer.writerow(asdict(v))
+            row = {
+                "titulo": v.titulo,
+                "empresa": v.empresa,
+                "localizacao": v.localizacao,
+                "link": v.link,
+                "termo_busca": v.termo_busca,
+                "fonte": v.fonte,
+                "score": "",
+                "compatibilidade": "",
+                "matches": "",
+            }
+            if _ranking_ativo:
+                resultado = calcular_compatibilidade(v.titulo, curriculo)
+                row["score"] = resultado.score
+                row["compatibilidade"] = resultado.compatibilidade
+                row["matches"] = "; ".join(resultado.matches)
+            writer.writerow(row)
 
     print(f"\n{len(vagas)} vagas salvas em: {caminho}")
+    if _ranking_ativo:
+        print("  (Scores de compatibilidade calculados)")
 
 
 # ── Main ─────────────────────────────────────────────────────────────────────
