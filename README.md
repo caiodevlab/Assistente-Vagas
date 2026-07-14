@@ -65,7 +65,7 @@ assistente-vagas/
 1. Clone o repositorio:
 
 ```bash
-git clone URL_DO_REPOSITORIO
+git clone https://github.com/caiodevlab/Assistente-Vagas
 ```
 
 2. Instale as dependencias:
